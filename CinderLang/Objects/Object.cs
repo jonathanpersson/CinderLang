@@ -10,30 +10,30 @@ namespace CinderLang.Objects
     {
         // Fields.
         private string _identifier = ""; // Identifier field.
-        private Dictionary<string, dynamic> _subs = new Dictionary<string, dynamic>(); // Subs field. Used to store subruitines in object.
+        private Dictionary<string, dynamic> _children = new Dictionary<string, dynamic>(); // Children field. Used to store childruitines in object.
         private Dictionary<int, List<string>> _args = new Dictionary<int, List<string>>(); // Args field.
         private Dictionary<int, List<string>> _lines = new Dictionary<int, List<string>>(); // Lines field.
 
         // Properties.
         public string Identifier { get { return _identifier; } set { _identifier = value; } } // Identifier property.
 
-        // Add subs to _subs.
-        public void add_subs (Dictionary<string, dynamic> subs_to_add, bool debug_out = false)
+        // Add children to _children.
+        public void add_children (Dictionary<string, dynamic> children_to_add, bool debug_out = false)
         {
-            foreach (string sub_id in subs_to_add.Keys)
+            foreach (string child_id in children_to_add.Keys)
             {
-                _subs.Add(sub_id, subs_to_add[sub_id]);
-                if (debug_out == true) { Console.WriteLine($"Sub \"{sub_id}\" added to \"{_identifier}\"."); }
+                _children.Add(child_id, children_to_add[child_id]);
+                if (debug_out == true) { Console.WriteLine($"child \"{child_id}\" added to \"{_identifier}\"."); }
             }
         }
 
-        // Remove subs from _subs.
-        public void remove_subs (Dictionary<string, dynamic> subs_to_remove, bool debug_out = false)
+        // Remove children from _children.
+        public void remove_children (Dictionary<string, dynamic> children_to_remove, bool debug_out = false)
         {
-            foreach (string sub_id in subs_to_remove.Keys)
+            foreach (string child_id in children_to_remove.Keys)
             {
-                _subs.Remove(sub_id);
-                if (debug_out == true) { Console.WriteLine($"Sub \"{sub_id}\" removed from \"{_identifier}\"."); }
+                _children.Remove(child_id);
+                if (debug_out == true) { Console.WriteLine($"child \"{child_id}\" removed from \"{_identifier}\"."); }
             }
         }
     }
