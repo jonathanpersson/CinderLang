@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
+
 namespace CinderLang
 {
     public class Exec
@@ -30,7 +31,17 @@ namespace CinderLang
             }
 
             // Create class object for program.
+            bool found_end = false;
 
+            do
+            {
+                var remove_range = (min: 0, max: 0);
+                foreach (int line_number in file_items.Keys)
+                {
+
+                }
+            }
+            while (found_end == false);
         }
 
         // Temporary - Move later.
