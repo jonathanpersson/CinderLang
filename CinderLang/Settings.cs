@@ -14,6 +14,7 @@ namespace CinderLang
 
         // ENVIRONMENT SETTINGS.
         public static bool global_debug_out = false;
+        public static string[] statement_keywords = { "if", "switch", "for", "while", "do", "loop" };
 
         // STRINGS.
         public static string[] special_characters_find = { " ", "(", ")", "[", "]", "{", "}", ".", ",", "^", "*", "/", "+", "-", "&" };
@@ -21,5 +22,10 @@ namespace CinderLang
         "%com%", "%flex%", "%ast%", "%slash%", "%plus%", "%dash%", "%amp%"};
         public static string split_characters = " .,^*/+-()[]{}&";
         public static string split_characters_exclude = " ";
+
+        // DOUBLES, DECIMALS AND FLOATS.
+        public static string double_prefix = "D";
+        public static string decimal_prefix = "d";
+        public static string float_prefix = "f";
     }
 }

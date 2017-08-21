@@ -27,21 +27,56 @@ namespace CinderLang
             {
                 List<string> temp_item_list = new List<string>(split_string_into_items(file_lines[i - 1]));
                 
-                if (temp_item_list.Count > 0) { file_items.Add(i, temp_item_list); }
+                if (temp_item_list.Count > 0) file_items.Add(i, temp_item_list);
             }
 
             // Create class object for program.
-            bool found_end = false;
+            bool finished_class = false;
 
             do
             {
                 var remove_range = (min: 0, max: 0);
                 foreach (int line_number in file_items.Keys)
                 {
+                    if (file_items[line_number][0].ToLower() == "class" && remove_range.min == 0) remove_range.min = line_number; // Check for start of class.
+                    else if (file_items[line_number][0].ToLower() == "end" && file_items[line_number][1].ToLower() == "class") remove_range.max = line_number; // Check for end of class.
+                }
 
+                Objects.Object new_class_object = new Objects.Object(); // Class object to create.
+                new_class_object.Identifier = file_items[remove_range.min][1]; // Set class identifier.
+
+                // Create function objects for class.
+                var function_range = (from: 0, to: 0);
+                for (int i = remove_range.min; i <= remove_range.max; i++)
+                {
+                    if (file_items[i][0].ToLower() == "function") function_range.from = i;
+                    else if (file_items[i][0].ToLower() == "end" && file_items[i][1].ToLower() == "function") function_range.to = i;
+
+                    if (function_range.from != 0 && function_range.to != 0)
+                    {
+                        Dictionary<int, List<string>> function_lines = new Dictionary<int, List<string>>();
+                        Objects.Object function_object = new Objects.Object(); // Temporary function object.
+                        function_object.Identifier = file_items[function_range.from][1]; // Set function identifier.
+
+                        // Add function lines to function_lines.
+                        for (int j = function_range.from + 1; j < function_range.to; i++) function_lines.Add(j, file_items[j]);
+
+                        // Go through function_lines and create objects for all child ruitines, add these to function_object.
+                        for (int j = function_range.to - 1; i > function_range.from; i--)
+                        {
+                            if (Settings.statement_keywords.Contains(function_lines[j][0].ToLower())) // If-statement found.
+                            {
+                                string child_name = $"{function_lines[j][0].ToLower()}-{Math.Floor((Math.Sqrt(Environment.TickCount/2))).ToString("X")}";
+                                string child_type = function_lines[j][0].ToLower();
+
+                            }
+                        }
+
+                        function_object.Lines = new Dictionary<int, List<string>>(function_lines);
+                    }
                 }
             }
-            while (found_end == false);
+            while (finished_class == false);
         }
 
         // Temporary - Move later.
