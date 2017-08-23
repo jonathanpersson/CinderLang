@@ -61,16 +61,17 @@ namespace CinderLang
                         // Add function lines to function_lines.
                         for (int j = function_range.from + 1; j < function_range.to; i++) function_lines.Add(j, file_items[j]);
 
-                        // Go through function_lines and create objects for all child ruitines, add these to function_object.
-                        for (int j = function_range.to - 1; i > function_range.from; i--)
-                        {
-                            if (Settings.statement_keywords.Contains(function_lines[j][0].ToLower())) // If-statement found.
-                            {
-                                string child_name = $"{function_lines[j][0].ToLower()}-{Math.Floor((Math.Sqrt(Environment.TickCount/2))).ToString("X")}";
-                                string child_type = function_lines[j][0].ToLower();
+                        // MOVE THIS, CREATE CHILD OBJECTS AFTER FUNCTION OBJECT //
+                        //// Go through function_lines and create objects for all child ruitines, add these to function_object.
+                        //for (int j = function_range.to - 1; i > function_range.from; i--)
+                        //{
+                        //    if (Settings.statement_keywords.Contains(function_lines[j][0].ToLower())) // If-statement found.
+                        //    {
+                        //        string child_name = $"{function_lines[j][0].ToLower()}-{Math.Floor((Math.Sqrt(Environment.TickCount/2))).ToString("X")}";
+                        //        string child_type = function_lines[j][0].ToLower();
 
-                            }
-                        }
+                        //    }
+                        //}
 
                         function_object.Lines = new Dictionary<int, List<string>>(function_lines);
                     }
