@@ -22,7 +22,7 @@ namespace CinderLang.Objects
         public Dictionary<int, List<string>> Lines { get { return _lines; } set { _lines = value; } }
 
         // Add child ruitines to _children.
-        public void add_children (Dictionary<string, dynamic> children_to_add, bool debug_out = false)
+        public void add_children(Dictionary<string, dynamic> children_to_add, bool debug_out = false)
         {
             foreach (string child_id in children_to_add.Keys)
             {
@@ -32,13 +32,19 @@ namespace CinderLang.Objects
         }
 
         // Remove child ruitines from _children.
-        public void remove_children (Dictionary<string, dynamic> children_to_remove, bool debug_out = false)
+        public void remove_children(string[] children_to_remove, bool debug_out = false)
         {
-            foreach (string child_id in children_to_remove.Keys)
+            foreach (string child_id in children_to_remove)
             {
                 _children.Remove(child_id);
                 if (debug_out == true) Console.WriteLine($"Child \"{child_id}\" removed from \"{_identifier}\".");
             }
+        }
+
+        // Find and create child ruitines.
+        public void find_children()
+        {
+
         }
     }
 }
