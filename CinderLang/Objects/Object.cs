@@ -44,7 +44,21 @@ namespace CinderLang.Objects
         // Find and create child ruitines.
         public void find_children()
         {
+            bool search_finished = false;
+            do
+            {
+                foreach (int line_number in Lines.Keys)
+                {
+                    int skipped_objects = 0;
+                    string object_type = "";
 
+                    foreach (string item in Lines[line_number])
+                    {
+
+                    }
+                }
+            }
+            while (search_finished == false);
         }
     }
 }
