@@ -22,6 +22,7 @@ namespace CinderLang
         "%com%", "%flex%", "%ast%", "%slash%", "%plus%", "%dash%", "%amp%"};
         public static string split_characters = " .,^*/+-()[]{}&";
         public static string split_characters_exclude = " ";
+        public static string subline_split_character = ",";
 
         // DOUBLES, DECIMALS AND FLOATS.
         public static string double_prefix = "D";

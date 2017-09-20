@@ -26,7 +26,7 @@ namespace CinderLang
             // Split lines into items and add them to file_items.
             for (int i = 1; i <= file_lines.Length; i++)
             {
-                List<string> temp_item_list = new List<string>(split_string_into_items(file_lines[i - 1]));
+                List<string> temp_item_list = new List<string>(Split_String_Into_Items(file_lines[i - 1]));
                 
                 if (temp_item_list.Count > 0) file_items.Add(i, temp_item_list);
             }
@@ -64,11 +64,11 @@ namespace CinderLang
             while (finished_class == false);
 
             // Add classes to program_object.
-            Memory.program_object.add_children(found_classes);
+            Memory.program_object.Add_Children(found_classes);
         }
 
         // Temporary - Move later.
-        public static List<string> split_string_into_items(string string_to_split, bool ignore_inline_strings = false)
+        public static List<string> Split_String_Into_Items(string string_to_split, bool ignore_inline_strings = false)
         {
             string altered_string = string_to_split.Trim('\t');
             List<string> string_items = new List<string>();

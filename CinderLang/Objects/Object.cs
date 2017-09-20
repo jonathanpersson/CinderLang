@@ -22,7 +22,7 @@ namespace CinderLang.Objects
         public Dictionary<int, List<string>> Lines { get { return _lines; } set { _lines = value; } }
 
         // Add child ruitines to _children.
-        public void add_children(Dictionary<string, dynamic> children_to_add, bool debug_out = false)
+        public void Add_Children(Dictionary<string, dynamic> children_to_add, bool debug_out = false)
         {
             foreach (string child_id in children_to_add.Keys)
             {
@@ -32,7 +32,7 @@ namespace CinderLang.Objects
         }
 
         // Remove child ruitines from _children.
-        public void remove_children(string[] children_to_remove, bool debug_out = false)
+        public void Remove_Children(string[] children_to_remove, bool debug_out = false)
         {
             foreach (string child_id in children_to_remove)
             {
@@ -42,11 +42,16 @@ namespace CinderLang.Objects
         }
 
         // Find and create child ruitines.
-        public void find_children()
+        public void Find_Children()
         {
             bool search_finished = false;
             do
             {
+                //TODO:
+                // -LOOK FOR CHILD RUITINES
+                // -WHEN ONE IS FOUND MOVE ITS CODE INTO OBJECT, INSERT INTO MEMORY.
+                // -BREAK OUT OF FOREACH LOOP.
+                // -LOOP THIS UNTIL FINISHED.
                 foreach (int line_number in Lines.Keys)
                 {
                     int skipped_objects = 0;
