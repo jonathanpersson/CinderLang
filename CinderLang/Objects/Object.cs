@@ -14,6 +14,7 @@ namespace CinderLang.Objects
         private Dictionary<string, dynamic> _children = new Dictionary<string, dynamic>(); // Children field. Used to store child ruitines in object.
         private Dictionary<int, List<string>> _args = new Dictionary<int, List<string>>(); // Args field.
         private Dictionary<int, List<string>> _lines = new Dictionary<int, List<string>>(); // Lines field.
+        private Dictionary<string, string> _accessible_ids = new Dictionary<string, string>();
 
         // Properties.
         public string Identifier { get { return _identifier; } set { _identifier = value; } } // Identifier property.
@@ -56,11 +57,36 @@ namespace CinderLang.Objects
                 {
                     int skipped_objects = 0;
                     string object_type = "";
+                    bool found_current_object = false;
+                    var object_range = (start: 0, end: 0);
 
                     foreach (string item in Lines[line_number])
                     {
-
+                        if (Settings.object_keywords.Contains(item) && found_current_object == false)
+                        {
+                            found_current_object = true;
+                            object_type = item;
+                            object_range.start = line_number;
+                        }
+                        else if (Settings.object_keywords.Contains(item) && found_current_object == true) skipped_objects++;
+                        else if (item == "end" && skipped_objects > 0) skipped_objects--;
+                        else if (item == "end" && skipped_objects == 0)
+                        {
+                            object_range.end = line_number;
+                            break;
+                        }
                     }
+                    //TODO:
+                    // Create method for extracting arguments within parentheses.
+                    // Read arguments and convert them into sublines.
+                    // Get lines within object_range and add them to new_object_lines.
+                    // Move backwards through object_range and remove lines from Lines.
+                    // Replace first line within object_range with a function call for new_object_id.
+                    // Add new_object_lines and arguments to new object.
+                    // Name object and add to _accessible_ids and memory.
+                    // Other stuff.
+                    string new_object_id = Math.Random.Generate_GUID();
+                    Dictionary<int, List<string>> new_object_lines = new Dictionary<int, List<string>>();
                 }
             }
             while (search_finished == false);

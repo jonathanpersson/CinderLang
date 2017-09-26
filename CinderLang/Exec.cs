@@ -11,13 +11,13 @@ namespace CinderLang
     public class Exec
     {
         // Start running program from file.
-        public static void init_program(string file)
+        public static void Init_Program(string file)
         {
             
         }
 
         // Import program/class into memory.
-        public static void import_program(string file, bool override_class_name = false, string new_class_name = "")
+        public static void Import_Program(string file, bool override_class_name = false, string new_class_name = "")
         {
             string[] file_lines = FileSys.File.read_lines(file); // Read lines from file.
             Dictionary<int, List<string>> file_items = new Dictionary<int, List<string>>();
