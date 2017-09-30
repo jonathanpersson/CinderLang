@@ -45,22 +45,24 @@ namespace CinderLang.Objects
         // Find and create child ruitines.
         public void Find_Children()
         {
+            Dictionary<string, dynamic> child_ruitines = new Dictionary<string, dynamic>();
             bool search_finished = false;
             do
             {
                 //TODO:
-                // -LOOK FOR CHILD RUITINES
-                // -WHEN ONE IS FOUND MOVE ITS CODE INTO OBJECT, INSERT INTO MEMORY.
-                // -BREAK OUT OF FOREACH LOOP.
-                // -LOOP THIS UNTIL FINISHED.
-                foreach (int line_number in Lines.Keys)
+                // -LOOK FOR CHILD RUITINESx
+                // -WHEN ONE IS FOUND MOVE ITS CODE INTO OBJECT, INSERT INTO MEMORY.x
+                // -BREAK OUT OF FOREACH LOOP.x
+                // -LOOP THIS UNTIL FINISHED.x
+                // REMOVE THIS LATER, KEEPING JUST IN CASE.
+                foreach (int line_number in _lines.Keys)
                 {
                     int skipped_objects = 0;
                     string object_type = "";
                     bool found_current_object = false;
                     var object_range = (start: 0, end: 0);
 
-                    foreach (string item in Lines[line_number])
+                    foreach (string item in _lines[line_number])
                     {
                         if (Settings.object_keywords.Contains(item) && found_current_object == false)
                         {
@@ -76,20 +78,43 @@ namespace CinderLang.Objects
                             break;
                         }
                     }
-                    //TODO:
-                    // Create method for extracting arguments within parentheses.
-                    // Read arguments and convert them into sublines.
-                    // Get lines within object_range and add them to new_object_lines.
-                    // Move backwards through object_range and remove lines from Lines.
-                    // Replace first line within object_range with a function call for new_object_id.
-                    // Add new_object_lines and arguments to new object.
-                    // Name object and add to _accessible_ids and memory.
-                    // Other stuff.
-                    string new_object_id = Math.Random.Generate_GUID();
+                    string new_object_id = Math.Random.Generate_GUID(); // ID used to identify the object in memory.
+                    string new_object_type = Data.Line.Get_Type(_lines[object_range.start]); // Object type.
+                    string[] object_call = { new_object_id, "(", ")" }; // Object call. Inserted into code.
                     Dictionary<int, List<string>> new_object_lines = new Dictionary<int, List<string>>();
+                    Dictionary<int, List<string>> new_object_args = new Dictionary<int, List<string>>(Data.Line.Get_Sublines(Data.Line.Get_Arguments(
+                        _lines[object_range.start])));
+                    Object new_object = new Object();
+
+                    // Add lines to new_object_lines.
+                    for (int i = object_range.start + 1; i < object_range.end; i++) new_object_lines.Add(i, _lines[i]);
+
+                    // Remove object_lines from _lines.
+                    for (int i = object_range.end; i > object_range.start; i--) _lines.Remove(i);
+
+                    // Insert object_call.
+                    _lines[object_range.start] = new List<string>(object_call);
+
+                    // Add everything to new_object.
+                    new_object.Identifier = new_object_id;
+                    new_object.Lines = new_object_lines;
+                    new_object.Args = new_object_args;
+                    new_object.Type = new_object_type;
+
+                    // Start adding into memory.
+                    _accessible_ids.Add(new_object_id, new_object_id);
+                    child_ruitines.Add(new_object_id, new_object);
+                    break;
                 }
             }
             while (search_finished == false);
+
+            // Finish adding into memory.
+            foreach (Object child in child_ruitines.Values)
+            {
+                child.Find_Children();
+            }
+            Memory.program_object.Add_Children(child_ruitines);
         }
     }
 }

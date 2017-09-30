@@ -34,9 +34,38 @@ namespace CinderLang.Data
         }
 
         //Get arguments from line.
-        public static List<string> Get_Arguments(List<string> line, int start_index)
+        public static List<string> Get_Arguments(List<string> line, int start_index = 0)
         {
+            int found_openings = 0;
+            var arg_range = (start: 0, end: 0);
+            List<string> arg_list = new List<string>();
 
+            for (int i = start_index; i < line.Count(); i++)
+            {
+                if (line[i] == "(" && found_openings == 0 && arg_range.start == 0) arg_range.start = i;
+                else if (line[i] == "(") found_openings++;
+                else if (line[i] == ")" && found_openings > 0) found_openings--;
+                else if (line[i] == ")" && found_openings == 0)
+                {
+                    arg_range.end = i;
+                    break;
+                }
+            }
+
+            for (int i = arg_range.start + 1; i < arg_range.end; i++) arg_list.Add(line[i]);
+
+            return new List<string>(arg_list);
+        }
+
+        // Get type from line.
+        public static string Get_Type(List<string> line)
+        {
+            foreach (string item in line)
+            {
+                if (Settings.object_keywords.Contains(item.ToLower())) return item.ToLower();
+            }
+
+            return "generic";
         }
     }
 }
