@@ -33,10 +33,10 @@ namespace CinderLang.Data
             return new Dictionary<int, List<string>>(subline_dictionary);
         }
 
-        // Get arguments from line.
-        //public static List<string> Get_Arguments(List<string> line, int start_index)
-        //{
+        //Get arguments from line.
+        public static List<string> Get_Arguments(List<string> line, int start_index)
+        {
 
-        //}
+        }
     }
 }
