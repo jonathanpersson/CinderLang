@@ -11,19 +11,55 @@ namespace CinderExec
     {
         static void Main(string[] args)
         {
-            string[] menu_items = { "Directory Browser" , "Option 1", "Option 2", "Option 3"};
-            Draw_Menu(menu_items, "Ci Executor");
+            while (true)
+            {
+                string[] menu_items = { "Directory Browser", "Option 1", "Option 2", "Option 3" };
+                int selected_item = Draw_Menu(menu_items, "Ci Executor");
+
+                switch (selected_item)
+                {
+                    case 0:
+                        Directory_Browser();
+                        break;
+                }
+            }
         }
 
         // Get current directory and draw a menu.
         static void Directory_Browser()
         {
-            string current_directory = System.IO.Directory.GetCurrentDirectory();
-            string[] available_directories = System.IO.Directory.GetDirectories(current_directory);
-            string[] available_files = System.IO.Directory.GetFiles(current_directory);
-            
-            // Join strings.
-            for ()
+            while (true)
+            {
+                string current_directory = System.IO.Directory.GetCurrentDirectory();
+                string[] available_directories = System.IO.Directory.GetDirectories(current_directory);
+                string[] available_files = System.IO.Directory.GetFiles(current_directory);
+                List<string> menu_items_list = new List<string>(); menu_items_list.Add("Up");
+
+                // Join strings.
+                for (int i = 0; i <= available_directories.Length + available_files.Length - 2; i++)
+                {
+                    if (i <= available_directories.Length - 1) menu_items_list.Add($"<DIR> {available_directories[i].Replace(current_directory, "")}");
+                    else if (i > available_directories.Length - 1) menu_items_list.Add($"<FIL> {available_files[i - available_directories.Length].Replace(current_directory, "")}");
+                }
+
+                menu_items_list.Add("Set custom directory");
+                menu_items_list.Add("Exit");
+
+                int selected_item = Draw_Menu(menu_items_list.ToArray(), "Directory Browser");
+
+                if (selected_item == 0) System.IO.Directory.SetCurrentDirectory(System.IO.Directory.GetParent(current_directory).ToString()); // Up.
+                else if (selected_item == menu_items_list.Count - 1) break; // Exit.
+                else if (selected_item == menu_items_list.Count - 2) // Set custom directory.
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("\nEnter directory: ");
+                    string new_dir = Console.ReadLine();
+                    System.IO.Directory.SetCurrentDirectory(new_dir);
+                    Console.ResetColor();
+                }
+                else if (selected_item <= available_directories.Length) System.IO.Directory.SetCurrentDirectory(available_directories[selected_item - 1]); // Move to dir.
+                else Exec.Init_Program(available_files[selected_item - available_directories.Length - 1]); // Open file.
+            }
         }
 
         // Draw a menu.
