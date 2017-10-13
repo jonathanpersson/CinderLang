@@ -80,6 +80,7 @@ namespace CinderLang.Objects
                     }
                     //TODO: Get object ID for functions.
                     string new_object_id = Math.Random.Generate_GUID(); // ID used to identify the object in memory.
+                    string object_id = new_object_id;
                     string new_object_type = Data.Line.Get_Type(_lines[object_range.start]); // Object type.
                     string[] object_call = { new_object_id, "(", ")" }; // Object call. Inserted into code.
                     Dictionary<int, List<string>> new_object_lines = new Dictionary<int, List<string>>();
