@@ -15,6 +15,7 @@ namespace CinderLang
         // ENVIRONMENT SETTINGS.
         public static bool global_debug_out = false;
         public static string[] object_keywords = { "if", "switch", "for", "while", "do", "loop", "function", "mathf"};
+        public static string[] named_objects = { "function", "mathf" };
 
         // STRINGS.
         public static string[] special_characters_find = { " ", "(", ")", "[", "]", "{", "}", ".", ",", "^", "*", "/", "+", "-", "&" };

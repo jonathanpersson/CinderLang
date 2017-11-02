@@ -36,7 +36,7 @@ namespace CinderExec
                 List<string> menu_items_list = new List<string>(); menu_items_list.Add("Up");
 
                 // Join strings.
-                for (int i = 0; i <= available_directories.Length + available_files.Length - 2; i++)
+                for (int i = 0; i <= available_directories.Length + available_files.Length - 1; i++)
                 {
                     if (i <= available_directories.Length - 1) menu_items_list.Add($"<DIR> {available_directories[i].Replace(current_directory, "")}");
                     else if (i > available_directories.Length - 1) menu_items_list.Add($"<FIL> {available_files[i - available_directories.Length].Replace(current_directory, "")}");

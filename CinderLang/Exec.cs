@@ -13,7 +13,16 @@ namespace CinderLang
         // Start running program from file.
         public static void Init_Program(string file)
         {
-            
+            Memory.program_object.Identifier = "PROGRAM";
+            Import_Program(file);
+
+            // Print Memory Contents.
+            Console.WriteLine("---LISTING MEMORY CONTENTS---");
+            Memory.program_object.List_Children();
+            Console.WriteLine("-----------------------------");
+
+            Console.WriteLine("Execution finished. Press any key to continue.");
+            Console.ReadKey();
         }
 
         // Import program/class into memory.
@@ -35,33 +44,54 @@ namespace CinderLang
             bool finished_class = false;
             do
             {
-                var class_range = (min: 0, max: 0);
+                List<int> object_range = new List<int>();
+                int object_definition = 0;
+                int object_end = 0;
+                bool inside_object = false;
+
                 foreach (int line_number in file_items.Keys)
                 {
-                    if (file_items[line_number][0].ToLower() == "class" && class_range.min == 0) class_range.min = line_number; // Check for start of class.
-                    else if (file_items[line_number][0].ToLower() == "end" && file_items[line_number][1].ToLower() == "class") class_range.max = line_number; // Check for end of class.
+                    if (file_items[line_number][0].ToLower() == "class" && inside_object == false) // Check for start of class.
+                    {
+                        inside_object = true; 
+                        object_definition = line_number;
+                    }
+                    else if (file_items[line_number][0].ToLower() == "end" && file_items[line_number][1].ToLower() == "class")// Check for end of class.
+                    {
+                        inside_object = false;
+                        object_end = line_number;
+                    }
+                    else if (inside_object == true) object_range.Add(line_number);
                 }
 
-                if (class_range.max != 0)
+                if (object_range.Count != 0)
                 {
                     Dictionary<int, List<string>> class_lines = new Dictionary<int, List<string>>(); // Lines to add to class object.
                     Objects.Object new_class_object = new Objects.Object(); // Class object to create.
-                    new_class_object.Identifier = file_items[class_range.min][1]; // Set class identifier.
+                    new_class_object.Identifier = file_items[object_definition][1]; // Set class identifier.
                     new_class_object.Type = "class";
 
                     // Add lines to class and remove lines from file_items. Then add class object to found_classes.
-                    for (int i = class_range.min + 1; i < class_range.max; i++)
+                    foreach (int i in object_range)
                     {
                         class_lines.Add(i, file_items[i]);
                         file_items.Remove(i);
                     }
-                    file_items.Remove(class_range.min); file_items.Remove(class_range.max); // Remove start and end of class.
+
+                    file_items.Remove(object_definition); file_items.Remove(object_end); // Remove start and end of class.
                     new_class_object.Lines = new Dictionary<int, List<string>>(class_lines);
+
+                    // Import child objects of class into memory.
+                    new_class_object.Find_Children();
+
                     found_classes.Add(new_class_object.Identifier, new_class_object);
                 }
                 else finished_class = true;
             }
             while (finished_class == false);
+
+            // Import library references.
+            //List<string> library_references = new List<string>(find_references());
 
             // Add classes to program_object.
             Memory.program_object.Add_Children(found_classes);

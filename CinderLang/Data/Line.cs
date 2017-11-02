@@ -67,5 +67,15 @@ namespace CinderLang.Data
 
             return "generic";
         }
+
+        // Get in-file object name.
+        public static string Get_Object_Name(List<string> line, string type, string new_id = "")
+        {
+            if (Settings.named_objects.Contains(type))
+            {
+                for (int i = 0; i < line.Count; i++) if (line[i] == type) return line[i + 1];
+            }
+            return new_id;
+        }
     }
 }
