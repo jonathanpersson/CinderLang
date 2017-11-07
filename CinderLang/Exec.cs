@@ -17,12 +17,28 @@ namespace CinderLang
             Import_Program(file);
 
             // Print Memory Contents.
-            Console.WriteLine("---LISTING MEMORY CONTENTS---");
+            Console.WriteLine("LISTING MEMORY CONTENTS...");
+            Console.WriteLine("FORMAT: BASE OBJ ID->TYPE->MEMORY ID->ACTUAL ID\n");
             Memory.program_object.List_Children();
-            Console.WriteLine("-----------------------------");
+            Console.WriteLine("\nEND OF MEMORY CONTENTS");
+
+            int exit_code = Run_Object(Memory.Get_Startup_Object());
 
             Console.WriteLine("Execution finished. Press any key to continue.");
             Console.ReadKey();
+
+            // Clear environment and memory.
+            Console.Clear();
+            Console.WriteLine("Clearing program object...");
+            Memory.program_object = new Objects.Object();
+            Console.WriteLine("Clearing Settings...");
+            Settings.main_class_identifier = "";
+        }
+
+        // Run Object
+        public static dynamic Run_Object(Object obj)
+        {
+            return 0;
         }
 
         // Import program/class into memory.
@@ -85,6 +101,9 @@ namespace CinderLang
                     new_class_object.Find_Children();
 
                     found_classes.Add(new_class_object.Identifier, new_class_object);
+
+                    // Set main class identifier.
+                    if (Settings.main_class_identifier == "") Settings.main_class_identifier = new_class_object.Identifier;
                 }
                 else finished_class = true;
             }

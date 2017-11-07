@@ -24,6 +24,18 @@ namespace CinderLang.Objects
         public Dictionary<int, List<string>> Args { get { return _args; } set { _args = value; } }
         public Dictionary<int, List<string>> Lines { get { return _lines; } set { _lines = value; } }
 
+        // Get child from identifier.
+        public Objects.Object Get_Child_From_Identifier(string identifier)
+        {
+            return _children[identifier];
+        }
+
+        // Get memory ID from object id.
+        public string Get_Memory_Identifier(string identifier)
+        {
+            return _accessible_ids[identifier];
+        }
+
         // Add child ruitines to _children.
         public void Add_Children(Dictionary<string, dynamic> children_to_add, bool debug_out = false)
         {
@@ -49,7 +61,7 @@ namespace CinderLang.Objects
         {
             foreach (string id in _children.Keys)
             {
-                Console.WriteLine($"{_identifier}->{id}({_children[id].Identifier})");
+                Console.WriteLine($"{_identifier}->{_children[id].Type}->{id}->{_children[id].Identifier}");
                 _children[id].List_Children();
             }
         }

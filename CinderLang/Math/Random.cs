@@ -15,7 +15,7 @@ namespace CinderLang.Math
         public static string Generate_GUID()
         {
             Guid g = Guid.NewGuid();
-            return Convert.ToBase64String(g.ToByteArray());
+            return Convert.ToBase64String(g.ToByteArray()).Replace("=", "");
         }
 
         // Generate a random integer.
