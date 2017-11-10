@@ -36,8 +36,16 @@ namespace CinderLang
         }
 
         // Run Object
-        public static dynamic Run_Object(Object obj)
+        //temp.
+        public static dynamic Run_Object(dynamic obj)
         {
+            //Console.WriteLine($"{obj.Identifier} - {obj.Function_Return_Type}");
+            //return 0;
+
+            // Parse arguments.
+            Dictionary<int, List<string>> args = new Dictionary<int, List<string>>();
+            if (obj.Args.Count != 0) args = new Dictionary<int, List<string>>(Data.Line.Get_Sublines(obj.Args));
+            if (args.Count != 0) Memory.Add_Variables(args);
             return 0;
         }
 

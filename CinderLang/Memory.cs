@@ -17,5 +17,11 @@ namespace CinderLang
             return program_object.Get_Child_From_Identifier(program_object.Get_Child_From_Identifier
                 (Settings.main_class_identifier).Get_Memory_Identifier("Main"));
         }
+
+        // Add Variables
+        public static void Add_Variables(Dictionary<int, List<string>> variables)
+        {
+
+        }
     }
 }
