@@ -24,7 +24,7 @@ namespace CinderLang
 
             int exit_code = Run_Object(Memory.Get_Startup_Object());
 
-            Console.WriteLine("Execution finished. Press any key to continue.");
+            Console.WriteLine($"Execution finished with exit code 0x{exit_code}. Press any key to continue.");
             Console.ReadKey();
 
             // Clear environment and memory.

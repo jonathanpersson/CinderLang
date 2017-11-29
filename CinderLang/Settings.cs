@@ -16,6 +16,8 @@ namespace CinderLang
         public static bool global_debug_out = false;
         public static string[] object_keywords = { "if", "switch", "for", "while", "do", "loop", "function", "mathf"};
         public static string[] named_objects = { "function", "mathf" };
+        public static string[] variable_types = { "string", "char", "int", "float", "double", "decimal", "long" };
+        public static string[] variable_mods = { "const", "dynamic" };
 
         // STRINGS.
         public static string[] special_characters_find = { " ", "(", ")", "[", "]", "{", "}", ".", ",", "^", "*", "/", "+", "-", "&" };
@@ -24,6 +26,7 @@ namespace CinderLang
         public static string split_characters = " .,^*/+-()[]{}&";
         public static string split_characters_exclude = " ";
         public static string subline_split_character = ",";
+        public static string string_operators = "&";
 
         // DOUBLES, DECIMALS AND FLOATS.
         public static string double_prefix = "D";
