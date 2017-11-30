@@ -15,14 +15,13 @@ namespace CinderLang
         {
             Memory.program_object.Identifier = "PROGRAM";
             Import_Program(file);
+            int exit_code = Run_Object(Memory.Get_Startup_Object());
 
             // Print Memory Contents.
             Console.WriteLine("LISTING MEMORY CONTENTS...");
-            Console.WriteLine("FORMAT: BASE OBJ ID->TYPE->MEMORY ID->ACTUAL ID\n");
+            Console.WriteLine("FORMAT: BASE OBJ ID->TYPE->MEMORY ID->ACTUAL ID->V_VALUE\n");
             Memory.program_object.List_Children();
             Console.WriteLine("\nEND OF MEMORY CONTENTS");
-
-            int exit_code = Run_Object(Memory.Get_Startup_Object());
 
             Console.WriteLine($"Execution finished with exit code 0x{exit_code}. Press any key to continue.");
             Console.ReadKey();
@@ -44,7 +43,7 @@ namespace CinderLang
 
             // Parse arguments.
             Dictionary<int, List<string>> args = new Dictionary<int, List<string>>();
-            if (obj.Args.Count != 0) args = new Dictionary<int, List<string>>(Data.Line.Get_Sublines(obj.Args));
+            if (obj.Args.Count != 0) args = new Dictionary<int, List<string>>(obj.Args);
             if (args.Count != 0) Memory.Add_Variables(args);
             return 0;
         }
@@ -173,6 +172,13 @@ namespace CinderLang
                 }
 
                 if (current_item != "") { string_items.Add(current_item); }
+            }
+
+            // Fix special characters.
+            for (int i = 0; i < Settings.special_characters_replace.Count(); i++)
+            {
+                for (int j = 0; j < string_items.Count(); j++) string_items[j] = string_items[j].Replace
+                        (Settings.special_characters_replace[i], Settings.special_characters_find[i]);
             }
 
             return string_items;

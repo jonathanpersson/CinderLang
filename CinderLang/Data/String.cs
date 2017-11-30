@@ -38,7 +38,7 @@ namespace CinderLang.Data
                 }
             }
 
-            return converted_items[0];
+            return converted_items[0].Replace("\"", "");
         }
     }
 }

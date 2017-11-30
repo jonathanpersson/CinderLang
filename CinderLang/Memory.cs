@@ -19,16 +19,20 @@ namespace CinderLang
         }
 
         // Add Variables
-        public static void Add_Variables(Dictionary<int, List<string>> variables)
+        public static void Add_Variables(Dictionary<int, List<string>> variables, string parent = "")
         {
+            Dictionary<string, dynamic> variables_to_add = new Dictionary<string, dynamic>();
+
             foreach (int i in variables.Keys)
             {
+                Objects.Object var_obj = new Objects.Object();
                 string var_id = "";
                 string var_mod = "null";
                 string var_type = "generic object";
-                dynamic var_value;
+                dynamic var_value = null;
                 int last_index = 0;
 
+                // Get variable name and type.
                 for (int j = 0; j < variables[i].Count(); j++)
                 {
                     string item = variables[i][j];
@@ -43,6 +47,7 @@ namespace CinderLang
                     }
                 }
 
+                // Get variable value (if any).
                 if (last_index < variables[i].Count() - 1)
                 {
                     List<string> value_items = new List<string>();
@@ -54,9 +59,20 @@ namespace CinderLang
                         if (variables[i][j] == "=" && start_adding == false) start_adding = true;
                         else if (start_adding == true) value_items.Add(variables[i][j]);
                     }
-                    var_value = 
+                    var_value = Data.String.Convert_Items_To_String(Math.Line.Calculate(value_items));
                 }
+
+                // Add data to object.
+                var_obj.Identifier = var_id;
+                var_obj.Type = var_type;
+                var_obj.V_Value = var_value;
+                
+                // Add object to variables_to_add.
+                variables_to_add.Add(Math.Random.Generate_GUID(), var_obj);
             }
+
+            // Add to program object.
+            program_object.Add_Children(variables_to_add);
         }
     }
 }

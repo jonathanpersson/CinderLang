@@ -12,6 +12,7 @@ namespace CinderLang.Objects
         private string _identifier = ""; // Identifier field.
         private string _type = "generic object";
         private string _function_return_type = "null";
+        private dynamic _v_value = null; // Variable value. Value returned if accessed like a variable.
         private Dictionary<string, dynamic> _children = new Dictionary<string, dynamic>(); // Children field. Used to store child ruitines in object.
         private Dictionary<int, List<string>> _args = new Dictionary<int, List<string>>(); // Args field.
         private Dictionary<int, List<string>> _lines = new Dictionary<int, List<string>>(); // Lines field.
@@ -21,6 +22,7 @@ namespace CinderLang.Objects
         public string Identifier { get { return _identifier; } set { _identifier = value; } } // Identifier property.
         public string Type { get { return _type; } set { _type = value; } } // Type property.
         public string Function_Return_Type { get { return _function_return_type; } set { _function_return_type = value; } }
+        public dynamic V_Value { get { return _v_value; } set { _v_value = value; } }
         public Dictionary<int, List<string>> Args { get { return _args; } set { _args = value; } }
         public Dictionary<int, List<string>> Lines { get { return _lines; } set { _lines = value; } }
 
@@ -61,7 +63,7 @@ namespace CinderLang.Objects
         {
             foreach (string id in _children.Keys)
             {
-                Console.WriteLine($"{_identifier}->{_children[id].Type}->{id}->{_children[id].Identifier}");
+                Console.WriteLine($"{_identifier}->{_children[id].Type}->{id}->{_children[id].Identifier}->{_children[id].V_Value}");
                 _children[id].List_Children();
             }
         }

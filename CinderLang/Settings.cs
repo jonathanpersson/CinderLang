@@ -27,6 +27,9 @@ namespace CinderLang
         public static string split_characters_exclude = " ";
         public static string subline_split_character = ",";
         public static string string_operators = "&";
+        public static string mathematical_operators = "^*/+-";
+        public static string[] logical_operators = { "<", ">", "=", "<=", ">=" };
+        public static string[] special_logical_operators = { "A=", "O=", "NA=", "NO=", "X=", "XN=", "N=" };
 
         // DOUBLES, DECIMALS AND FLOATS.
         public static string double_prefix = "D";
