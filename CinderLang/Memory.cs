@@ -60,15 +60,22 @@ namespace CinderLang
                         else if (start_adding == true) value_items.Add(variables[i][j]);
                     }
                     var_value = Data.String.Convert_Items_To_String(Math.Line.Calculate(value_items));
+                    var_value = Data.Convert.From_String(var_value, var_type);
                 }
 
                 // Add data to object.
+                string memory_id = Math.Random.Generate_GUID();
                 var_obj.Identifier = var_id;
                 var_obj.Type = var_type;
+                var_obj.Parent = parent;
                 var_obj.V_Value = var_value;
-                
+
+                // Add memory id to variable parent.
+                string parent_mem_id = program_object.Get_Memory_Identifier(parent); // Get parent's memory ID.
+                program_object.Get_Child_From_Identifier(parent_mem_id).Add_Child_ID(var_obj.Identifier, memory_id); // Add variable to parent access. IDs.
+
                 // Add object to variables_to_add.
-                variables_to_add.Add(Math.Random.Generate_GUID(), var_obj);
+                variables_to_add.Add(memory_id, var_obj);
             }
 
             // Add to program object.

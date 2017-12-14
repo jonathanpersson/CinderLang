@@ -38,14 +38,13 @@ namespace CinderLang
         //temp.
         public static dynamic Run_Object(dynamic obj)
         {
-            //Console.WriteLine($"{obj.Identifier} - {obj.Function_Return_Type}");
-            //return 0;
-
             // Parse arguments.
             Dictionary<int, List<string>> args = new Dictionary<int, List<string>>();
             if (obj.Args.Count != 0) args = new Dictionary<int, List<string>>(obj.Args);
-            if (args.Count != 0) Memory.Add_Variables(args);
-            return 0;
+            if (args.Count != 0) Memory.Add_Variables(args, obj.Identifier); //TODO: Replace "Main" with memory identifier.
+
+            // Start executing object code.
+            return 0; //TEMP.
         }
 
         // Import program/class into memory.

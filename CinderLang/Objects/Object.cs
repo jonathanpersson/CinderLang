@@ -12,6 +12,7 @@ namespace CinderLang.Objects
         private string _identifier = ""; // Identifier field.
         private string _type = "generic object";
         private string _function_return_type = "null";
+        private string _parent = "";
         private dynamic _v_value = null; // Variable value. Value returned if accessed like a variable.
         private Dictionary<string, dynamic> _children = new Dictionary<string, dynamic>(); // Children field. Used to store child ruitines in object.
         private Dictionary<int, List<string>> _args = new Dictionary<int, List<string>>(); // Args field.
@@ -22,6 +23,7 @@ namespace CinderLang.Objects
         public string Identifier { get { return _identifier; } set { _identifier = value; } } // Identifier property.
         public string Type { get { return _type; } set { _type = value; } } // Type property.
         public string Function_Return_Type { get { return _function_return_type; } set { _function_return_type = value; } }
+        public string Parent { get { return _parent; } set { _parent = value; } } // Parent property.
         public dynamic V_Value { get { return _v_value; } set { _v_value = value; } }
         public Dictionary<int, List<string>> Args { get { return _args; } set { _args = value; } }
         public Dictionary<int, List<string>> Lines { get { return _lines; } set { _lines = value; } }
@@ -38,12 +40,19 @@ namespace CinderLang.Objects
             return _accessible_ids[identifier];
         }
 
+        // Add id to accessible ids.
+        public void Add_Child_ID(string child_id, string child_memory_id)
+        {
+            _accessible_ids.Add(child_id, child_memory_id);
+        }
+
         // Add child ruitines to _children.
-        public void Add_Children(Dictionary<string, dynamic> children_to_add, bool debug_out = false)
+        public void Add_Children(Dictionary<string, dynamic> children_to_add, bool add_id = false, bool debug_out = false)
         {
             foreach (string child_id in children_to_add.Keys)
             {
                 _children.Add(child_id, children_to_add[child_id]);
+                if (add_id == true) Add_Child_ID(children_to_add[child_id].Identifier, child_id); // Only do this to public objects.
                 if (debug_out == true) Console.WriteLine($"Child \"{child_id}\" added to \"{_identifier}\".");
             }
         }
@@ -63,7 +72,11 @@ namespace CinderLang.Objects
         {
             foreach (string id in _children.Keys)
             {
-                Console.WriteLine($"{_identifier}->{_children[id].Type}->{id}->{_children[id].Identifier}->{_children[id].V_Value}");
+                string v_value_s = "";
+                if (_children[id].V_Value == null) v_value_s = "null";
+                else v_value_s = _children[id].V_Value.ToString();
+
+                Console.WriteLine($"{_identifier}->{_children[id].Type}->{id}->{_children[id].Identifier}->{v_value_s}");
                 _children[id].List_Children();
             }
         }
@@ -154,7 +167,7 @@ namespace CinderLang.Objects
             {
                 child.Find_Children();
             }
-            Memory.program_object.Add_Children(child_ruitines);
+            Memory.program_object.Add_Children(child_ruitines, true);
         }
     }
 }
