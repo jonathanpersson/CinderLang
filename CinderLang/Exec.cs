@@ -41,10 +41,20 @@ namespace CinderLang
             // Parse arguments.
             Dictionary<int, List<string>> args = new Dictionary<int, List<string>>();
             if (obj.Args.Count != 0) args = new Dictionary<int, List<string>>(obj.Args);
-            if (args.Count != 0) Memory.Add_Variables(args, obj.Identifier); //TODO: Replace "Main" with memory identifier.
+            if (args.Count != 0) Memory.Add_Variables(args, obj.Identifier);
 
             // Start executing object code.
-            return 0; //TEMP.
+            Dictionary<string, string> current_accessible_ids = new Dictionary<string, string>(obj.Get_Accessible_ID_List());
+            Dictionary<int, List<string>> object_lines = obj.Lines;
+
+            foreach (int i in object_lines.Keys)
+            {
+                List<string> current_line = new List<string>(object_lines[i]);
+                
+            }
+
+            if (obj.Identifier == "Main") return 0;
+            else return null;
         }
 
         // Import program/class into memory.

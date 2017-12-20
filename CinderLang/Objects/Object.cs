@@ -40,6 +40,12 @@ namespace CinderLang.Objects
             return _accessible_ids[identifier];
         }
 
+        // Get accessible ids.
+        public Dictionary<string, string> Get_Accessible_ID_List()
+        {
+            return _accessible_ids;
+        }
+
         // Add id to accessible ids.
         public void Add_Child_ID(string child_id, string child_memory_id)
         {
