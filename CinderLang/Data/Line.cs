@@ -77,5 +77,23 @@ namespace CinderLang.Data
             }
             return new_id;
         }
+
+        ///<summary>
+        /// Replace variable calls in a line with their actual values.
+        ///</summary>
+        public static List<string> Replace_Variables(List<string> line, Dictionary<string, string> accessible_ids)
+        {
+            List<string> new_line = new List<string>(line);
+            for (int i = 0; i < new_line.Count; i++)
+            {
+                string item = new_line[i];
+                if (accessible_ids.Keys.Contains(item))
+                {
+                    new_line[i] = Memory.program_object.Get_Child_From_Identifier(accessible_ids[item]).V_Value.ToString();
+                }
+            }
+
+            return new List<string>(new_line);
+        }
     }
 }

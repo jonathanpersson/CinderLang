@@ -159,9 +159,12 @@ namespace CinderLang.Objects
                     new_object.Args = new_object_args;
                     new_object.Type = new_object_type;
                     new_object.Function_Return_Type = return_type;
+                    new_object.Parent = _identifier;
+
+                    if (new_object_type == "function") object_id = $"{_identifier}.{object_id}";
 
                     // Start adding into memory.
-                    _accessible_ids.Add(object_id, new_object_id); // Add object to accessible IDs.
+                    _accessible_ids.Add($"{object_id}", new_object_id); // Add object to accessible IDs.
                     child_ruitines.Add(new_object_id, new_object); // These are added into memory upon finishing child ruitine search.
                 }
                 else search_finished = true;

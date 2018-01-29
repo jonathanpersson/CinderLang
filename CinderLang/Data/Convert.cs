@@ -9,7 +9,34 @@ namespace CinderLang.Data
     class Convert
     {
         /// <summary>
-        /// Conversions (of non-array/list type variables) to and from string.
+        /// Conversions of colors to and from string.
+        /// </summary>
+
+        // Convert color to string.
+        public static ConsoleColor From_String_To_Color(string colorstring)
+        {
+            switch (colorstring)
+            {
+                case "black":
+                    return ConsoleColor.Black;
+                case "white":
+                    return ConsoleColor.White;
+                case "gray":
+                    return ConsoleColor.Gray;
+                case "red":
+                    return ConsoleColor.Red;
+                case "green":
+                    return ConsoleColor.Green;
+                case "blue":
+                    return ConsoleColor.Blue;
+                // add more.
+                default:
+                    return ConsoleColor.Black;
+            }
+        }
+
+        /// <summary>
+        /// Conversions (of non-array/list/color type variables) to and from string.
         /// </summary>
 
         // Convert from string.

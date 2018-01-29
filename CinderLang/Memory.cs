@@ -11,11 +11,18 @@ namespace CinderLang
         public static Objects.Object program_object = new Objects.Object(); // Program object.
         //TODO: Add something to store global variables.
 
+        // Get function
+        public static Objects.Object Get_Function(string identifier)
+        {
+            string function_memory_id = program_object.Get_Memory_Identifier(identifier);
+            return program_object.Get_Child_From_Identifier(function_memory_id);
+        }
+
         // Get startup_object
         public static Objects.Object Get_Startup_Object()
         {
             return program_object.Get_Child_From_Identifier(program_object.Get_Child_From_Identifier
-                (Settings.main_class_identifier).Get_Memory_Identifier("Main"));
+                (Settings.main_class_identifier).Get_Memory_Identifier($"{Settings.main_class_identifier}.Main"));
         }
 
         // Add Variables

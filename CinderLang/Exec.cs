@@ -13,15 +13,17 @@ namespace CinderLang
         // Start running program from file.
         public static void Init_Program(string file)
         {
+            Console.Clear();
+
             Memory.program_object.Identifier = "PROGRAM";
             Import_Program(file);
             int exit_code = Run_Object(Memory.Get_Startup_Object());
 
-            // Print Memory Contents.
-            Console.WriteLine("LISTING MEMORY CONTENTS...");
-            Console.WriteLine("FORMAT: BASE OBJ ID->TYPE->MEMORY ID->ACTUAL ID->V_VALUE\n");
-            Memory.program_object.List_Children();
-            Console.WriteLine("\nEND OF MEMORY CONTENTS");
+            //// Print Memory Contents.
+            //Console.WriteLine("LISTING MEMORY CONTENTS...");
+            //Console.WriteLine("FORMAT: BASE OBJ ID->TYPE->MEMORY ID->ACTUAL ID->V_VALUE\n");
+            //Memory.program_object.List_Children();
+            //Console.WriteLine("\nEND OF MEMORY CONTENTS");
 
             Console.WriteLine($"Execution finished with exit code 0x{exit_code}. Press any key to continue.");
             Console.ReadKey();
@@ -49,8 +51,40 @@ namespace CinderLang
 
             foreach (int i in object_lines.Keys)
             {
-                List<string> current_line = new List<string>(object_lines[i]);
-                
+                List<string> current_line = new List<string>(Data.Line.Replace_Variables(object_lines[i], current_accessible_ids));
+
+                // Execute from inside out.
+                while (true)
+                {
+                    if (current_line.Contains("("))
+                    {
+                        int function_call_pos = 0;
+                        int nearest_closing_parenthesis = 0;
+
+                        for (int j = current_line.Count - 1; j >= 0; j--)
+                        {
+                            string item = current_line[j];
+
+                            if (item == ")") nearest_closing_parenthesis = j;
+                            else if (item == "(")
+                            {
+                                function_call_pos = j - 1;
+                                break;
+                            }
+                        }
+
+                        // Execute.
+                        string function_identifier = current_line[function_call_pos];
+                        List<string> function_args = Data.Line.Get_Arguments(current_line, function_call_pos);
+                        //Objects.Object function_object = Memory.Get_Function(function_identifier);
+
+                        // RUN CODE.
+                        // Check whether function call refers to a built-in function, or imported function.
+                        Command.Func.Get_Command(function_identifier, function_args);
+                        break;
+                    }
+                    else break;
+                }
             }
 
             if (obj.Identifier == "Main") return 0;
@@ -187,7 +221,7 @@ namespace CinderLang
             for (int i = 0; i < Settings.special_characters_replace.Count(); i++)
             {
                 for (int j = 0; j < string_items.Count(); j++) string_items[j] = string_items[j].Replace
-                        (Settings.special_characters_replace[i], Settings.special_characters_find[i]);
+                        (Settings.special_characters_replace[i], Settings.special_characters_find[i]).Replace("\"", "");
             }
 
             return string_items;

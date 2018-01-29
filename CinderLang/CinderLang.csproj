@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\Console.cs" />
+    <Compile Include="Command\Func.cs" />
     <Compile Include="Data\Class.cs" />
     <Compile Include="Data\Convert.cs" />
     <Compile Include="Data\Line.cs" />
